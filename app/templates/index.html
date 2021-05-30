@@ -26,6 +26,7 @@
   <p>exampledomain.ua/category/</p>
 
   <div>
+    {% if not img %}
     <form action="/" method="post">
       <h2>Almost cron</h2>
       <button id="1 wave" type="button">Don`t touch</button>
@@ -34,12 +35,10 @@
       <input  id="pass" type="password" name="password" style="display: none" />
       <button id="finish" type="submit" style="display: none">Okay, let's try, it's okay with what I told you - DON'T PRESS THIS SHIT!</button>
     </form>
+    {% else %}
+      <img src="{{url_for('static', filename='img.png')}}" alt="">
+    {% endif %}
   </div>
-
-  {% if img %}
-    <br>
-    <img src="{{url_for('static', filename='img.png')}}" alt="">
-  {% endif %}
 </div>
 <script>
   first_wave = document.getElementById('1 wave');
