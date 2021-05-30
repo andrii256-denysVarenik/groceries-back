@@ -24,6 +24,53 @@
 
   <h3>Example good</h3>
   <p>exampledomain.ua/category/</p>
+
+  <div>
+    <form action="/" method="post">
+      <h2>Almost cron</h2>
+      <button id="1 wave" type="button">Don`t touch</button>
+      <button id="2 wave" type="button" style="display: none">I am serious! Don`t touch!</button>
+      <button id="3 wave" type="button" style="display: none">Are you crazy?</button>
+      <input  id="pass" type="password" name="password" style="display: none" />
+      <button id="finish" type="submit" style="display: none">Okay, let's try, it's okay with what I told you - DON'T PRESS THIS SHIT!</button>
+    </form>
+  </div>
+
+  {% if img %}
+    <br>
+    <img src="{{url_for('static', filename='img.png')}}" alt="">
+  {% endif %}
 </div>
+<script>
+  first_wave = document.getElementById('1 wave');
+  second_wave = document.getElementById('2 wave');
+  third_wave = document.getElementById('3 wave');
+
+  pass = document.getElementById('pass');
+  finish = document.getElementById('finish');
+
+  first_wave.addEventListener("click", (event) => {
+    brokenBarrier(first_wave);
+    newBarrier(second_wave);
+  })
+
+  second_wave.addEventListener("click", (event) => {
+    brokenBarrier(second_wave);
+    newBarrier(third_wave);
+  })
+
+  third_wave.addEventListener("click", (event) => {
+    brokenBarrier(third_wave);
+    newBarrier(pass);
+    newBarrier(finish);
+  })
+
+  function brokenBarrier(wave) {
+    wave.setAttribute('style', 'display: none');
+  }
+  function newBarrier(wave) {
+    wave.setAttribute('style', 'display: block');
+  }
+</script>
 </body>
 </html>

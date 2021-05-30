@@ -1,13 +1,14 @@
 from datetime import date, datetime, time
 
-from pymongo import MongoClient
+from app import app
+from flask_pymongo import PyMongo
 
-dbClient = MongoClient(host='127.0.0.1', port=27017)
-db = dbClient["groceries"]
+dbClient = PyMongo(app)
+db = dbClient.db['tavriav']
 
 
-def insert_goods(data: dict) -> None:
-    db[data["type"]].insert_one(data)
+def insert_goods(data: dict) -> bool:
+    return db[data["type"]].insert_one(data).acknowledged
 
 
 def find_goods(type_good: str):

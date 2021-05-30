@@ -4,7 +4,7 @@ import re
 from bs4 import BeautifulSoup
 from requests import get
 
-from database.provider import insert_goods
+from app.database.provider import insert_goods
 
 
 def get_soup(url: str):
@@ -92,14 +92,7 @@ def get_goods(soup) -> list:
     return soup.find("div", {"class": "catalog-products__container"}).findAll("div", {"class": "products__item"})
 
 
-def get_start(link: str, type_good: str):
-    soup = get_soup(link)
-    goods = get_goods(soup)
-    for good in goods:
-        get_good(good, type_good)
-
-
-if __name__ == "__main__":
+def get_start():
     CATEGORY = {
         "corn": 96,
         "buckwheat": 94,
@@ -109,4 +102,11 @@ if __name__ == "__main__":
     }
     for type_good, num in CATEGORY.items():
         link = f'{BASE_URL["tavriav"]}/subcatalog/{num}/'
-        get_start(link, type_good)
+        soup = get_soup(link)
+        goods = get_goods(soup)
+        for good in goods:
+            get_good(good, type_good)
+
+
+if __name__ == "__main__":
+    get_start()
