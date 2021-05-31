@@ -29,12 +29,8 @@
       <h4>Filter</h4>
     <p><input type="text" id='filter_url' value="exampledomain.ua/<category>/?" style="width: 500px;" readonly/></p>
       <div>
-        <input type="checkbox" id="max" value="&max=100">
-        <label for="max">Max</label>
-      </div>
-      <div>
-        <input type="checkbox" id="min" value="&min=0">
-        <label for="min">Min</label>
+        <input type="checkbox" id="price" value="&price=1-100">
+        <label for="price">Price</label>
       </div>
       <div>
         <input type="checkbox" id="shop" value="&shop=tavriav,atb">
@@ -74,8 +70,7 @@
 <script>
   let filter_url = document.getElementById('filter_url');
 
-  let checkbox_max = document.getElementById('max');
-  let checkbox_min = document.getElementById('min');
+  let checkbox_price = document.getElementById('price');
   let checkbox_shop = document.getElementById('shop');
   let checkbox_cheaper = document.getElementById('cheaper');
   let checkbox_expensive = document.getElementById('expensive');
@@ -94,7 +89,7 @@
     filter_url.value = filter_url.value.replace(checkbox_cheaper.value, '');
   });
 
-  let inputs = [checkbox_max, checkbox_min, checkbox_shop];
+  let inputs = [checkbox_price, checkbox_shop];
   inputs.forEach(addToUrl);
 
   function addToUrl(input) {
