@@ -1,20 +1,7 @@
 from app import app
-from flask import render_template, jsonify, request
+from flask import jsonify
 from datetime import date, timedelta, datetime, time
 from app.database.provider import find_goods, find_cheaper
-from hashlib import md5
-from app.parser import get_start
-
-
-@app.route('/', methods=["GET", "POST"])
-def index():
-    if request.method == "POST":
-        if md5(request.form.get('password').encode()).hexdigest() == '8a5da52ed126447d359e70c05721a8aa':
-            get_start()
-        else:
-            print('Exception')
-            return render_template('index.html', img=True)
-    return render_template('index.html')
 
 
 @app.route('/<string:type_good>/', methods=["GET"])
