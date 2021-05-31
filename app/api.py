@@ -1,12 +1,12 @@
 from app import app
-from flask import jsonify
+from flask import jsonify, request
 from datetime import date, timedelta, datetime, time
 from app.database.provider import find_goods, find_cheaper
 
 
 @app.route('/<string:type_good>/', methods=["GET"])
 def goods(type_good):
-    data = [good for good in find_goods(type_good)]
+    data = [good for good in find_goods(type_good, request.args.to_dict())]
     for good in data:
         good["_id"] = str(good["_id"])
     return jsonify(data)
