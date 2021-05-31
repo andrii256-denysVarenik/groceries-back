@@ -17,15 +17,46 @@
 </div>
 <div>
   <h3>Example cheaper</h3>
-  <p>exampledomain.ua/cheaper/category/</p>
+  <p>exampledomain.ua/cheaper/&lt;category&gt;/</p>
 
   <h3>Example history</h3>
-  <p>exampledomain.ua/history/category/</p>
+  <p>exampledomain.ua/history/&lt;category&gt;/</p>
 
   <h3>Example good</h3>
-  <p>exampledomain.ua/category/</p>
+  <p>exampledomain.ua/&lt;category&gt;/</p>
 
   <div>
+      <h4>Filter</h4>
+    <p><input type="text" id='filter_url' value="exampledomain.ua/<category>/?" style="width: 500px;" readonly/></p>
+      <div>
+        <input type="checkbox" id="max" value="&max=100">
+        <label for="max">Max</label>
+      </div>
+      <div>
+        <input type="checkbox" id="min" value="&min=0">
+        <label for="min">Min</label>
+      </div>
+      <div>
+        <input type="checkbox" id="shop" value="&shop=tavriav,atb">
+        <label for="shop">Shop</label>
+      </div>
+      <div>
+        <h5>Filter</h5>
+        <div>
+            <input type="radio" name="filter" id="cheaper" value="&filter=cheaper">
+            <label for="cheaper">Cheaper</label>
+        </div>
+        <div>
+            <input type="radio" name="filter" id="expensive" value="&filter=expensive">
+            <label for="expensive">Expensive</label>
+        </div>
+        <div>
+            <input type="radio" name="filter" id="none" value="" checked>
+            <label for="none"></label>
+        </div>
+      </div>
+      <div>
+  </div>
     {% if not img %}
     <form action="/" method="post">
       <h2>Almost cron</h2>
@@ -41,12 +72,49 @@
   </div>
 </div>
 <script>
-  first_wave = document.getElementById('1 wave');
-  second_wave = document.getElementById('2 wave');
-  third_wave = document.getElementById('3 wave');
+  let filter_url = document.getElementById('filter_url');
 
-  pass = document.getElementById('pass');
-  finish = document.getElementById('finish');
+  let checkbox_max = document.getElementById('max');
+  let checkbox_min = document.getElementById('min');
+  let checkbox_shop = document.getElementById('shop');
+  let checkbox_cheaper = document.getElementById('cheaper');
+  let checkbox_expensive = document.getElementById('expensive');
+  let checkbox_none = document.getElementById('none');
+
+  checkbox_cheaper.addEventListener('change', function() {
+    filter_url.value = filter_url.value + this.value;
+    filter_url.value = filter_url.value.replace(checkbox_expensive.value, '');
+  });
+  checkbox_expensive.addEventListener('change', function() {
+    filter_url.value = filter_url.value + this.value;
+    filter_url.value = filter_url.value.replace(checkbox_cheaper.value, '');
+  });
+  checkbox_none.addEventListener('change', function() {
+    filter_url.value = filter_url.value.replace(checkbox_expensive.value, '');
+    filter_url.value = filter_url.value.replace(checkbox_cheaper.value, '');
+  });
+
+  let inputs = [checkbox_max, checkbox_min, checkbox_shop];
+  inputs.forEach(addToUrl);
+
+  function addToUrl(input) {
+    input.addEventListener('click', function() {
+      if (this.checked) {
+        console.log(this);
+        filter_url.value = filter_url.value + this.value;
+      } else {
+        filter_url.value = filter_url.value.replace(this.value, '');
+      }
+    });
+  }
+</script>
+<script>
+  let first_wave = document.getElementById('1 wave');
+  let second_wave = document.getElementById('2 wave');
+  let third_wave = document.getElementById('3 wave');
+
+  let pass = document.getElementById('pass');
+  let finish = document.getElementById('finish');
 
   first_wave.addEventListener("click", (event) => {
     brokenBarrier(first_wave);
