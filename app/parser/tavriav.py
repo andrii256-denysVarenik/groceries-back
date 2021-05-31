@@ -1,23 +1,17 @@
 import datetime
 import re
 
-from bs4 import BeautifulSoup
-from requests import get
-
 from app.database.provider import insert_goods
-
-
-def get_soup(url: str):
-    return BeautifulSoup(get(url).text, 'html.parser')
-
-
-BASE_URL = {
-    'tavriav': 'https://tavriav.ua',
-    'atb': 'https://zakaz.atbmarket.com/',
-    'silpo': 'https://shop.silpo.ua/',
-}
+from app.parser import get_soup, BASE_URL, get_weight_and_units, price_per_kg
 
 # max_num = 681
+CATEGORY = {
+        "corn": 96,
+        "buckwheat": 94,
+        "rice": 97,
+        "barley": 102,
+        "wheat": 100,
+    }
 
 
 def get_name(good) -> str:
@@ -45,28 +39,6 @@ def get_price(good) -> list:
         return [discount_good, before_discount]
 
 
-def get_weight_and_units(name_good) -> list:
-    weight = re.search(r'(\d*х*x*\d*,*\.*\d+)\s*(к*г)', name_good)
-    weight, units = [weight.group(1), weight.group(2)] if weight else ['1', 'кг']
-    return [weight_to_float(weight), units]
-
-
-def price_per_kg(units: str, price: float, weight: float) -> float:
-    kilo = 1000 if units == 'г' else 1
-    cost = price / weight * kilo
-    return cost
-
-
-def weight_to_float(weight: str):
-    weight = weight.replace(',', '.')
-    try:
-        weight = float(weight)
-    except:
-        x, y = weight.split('х') if weight.split('х') else weight.split('x')
-        weight = float(x) * float(y)
-    return weight
-
-
 def get_good(good, type_good: str):
     name = get_name(good)
     weight, units = get_weight_and_units(name)
@@ -92,15 +64,8 @@ def get_goods(soup) -> list:
     return soup.find("div", {"class": "catalog-products__container"}).findAll("div", {"class": "products__item"})
 
 
-def get_start():
-    CATEGORY = {
-        "corn": 96,
-        "buckwheat": 94,
-        "rice": 97,
-        "barley": 102,
-        "wheat": 100,
-    }
-    for type_good, num in CATEGORY.items():
+def get_start(category: dict):
+    for type_good, num in category.items():
         link = f'{BASE_URL["tavriav"]}/subcatalog/{num}/'
         soup = get_soup(link)
         goods = get_goods(soup)
@@ -109,4 +74,4 @@ def get_start():
 
 
 if __name__ == "__main__":
-    get_start()
+    get_start(CATEGORY)
