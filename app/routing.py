@@ -1,7 +1,7 @@
 from app import app
 from flask import request, render_template
 from hashlib import md5
-from app.parser import tavriav, metro, auchan
+from app.parser import tavriav, metro, auchan, fozzy
 
 
 @app.route('/', methods=["GET", "POST"])
@@ -28,6 +28,13 @@ def index():
                 "rice": "rice",
                 "barley": "barley-groats",
                 "wheat": "wheat-groats",
+            })
+            fozzy.get_start({
+                "corn": '300149-kukuruza',
+                "buckwheat": '300143-krupa-grechnevaya',
+                "rice": '300152-ris',
+                "barley": '300148-krupa-yachnevaya',
+                "wheat": '300147-krupa-pshenichnaya',
             })
         else:
             print('Exception')

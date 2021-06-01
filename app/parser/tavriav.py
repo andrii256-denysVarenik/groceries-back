@@ -1,8 +1,7 @@
-import datetime
 import re
 
 from app.database.provider import insert_goods
-from app.parser import get_soup, BASE_URL, get_weight_and_units, price_per_kg
+from app.parser import get_soup, BASE_URL, get_weight_and_units, price_per_kg, get_date
 
 # max_num = 681
 CATEGORY = {
@@ -51,7 +50,7 @@ def get_good(good, type_good: str):
         "pricePerKg": float(f"{price:.2f}"),
         "weight": weight,
         "link": get_link(good),
-        "date": datetime.datetime.combine(datetime.date.today(), datetime.time.min),
+        "date": get_date(),
         "shopName": "Таврія В"
     }
     if before_discount:
