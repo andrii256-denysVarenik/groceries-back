@@ -1,5 +1,5 @@
 from app.parser import get_soup, BASE_URL, get_weight_and_units, get_weight, price_per_kg, get_date
-from app.database.provider import insert_goods
+from app.parser import db
 
 CATEGORY = {
     "corn": "corn-groats",
@@ -38,7 +38,7 @@ def get_good(good, type_good: str):
         "date": get_date(),
         "shopName": "Метро"
     }
-    insert_goods(data)
+    db.insert_goods(data)
 
 
 def get_name(good) -> str:

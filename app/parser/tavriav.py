@@ -1,6 +1,6 @@
 import re
 
-from app.database.provider import insert_goods
+from app.parser import db
 from app.parser import get_soup, BASE_URL, get_weight_and_units, price_per_kg, get_date
 
 # max_num = 681
@@ -56,7 +56,7 @@ def get_good(good, type_good: str):
     if before_discount:
         before_discount = price_per_kg(units, float(before_discount), weight)
         data['before_discount'] = float(f"{before_discount:.2f}")
-    insert_goods(data)
+    db.insert_goods(data)
 
 
 def get_goods(soup) -> list:
