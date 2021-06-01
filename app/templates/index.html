@@ -3,30 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <title>Groceries API</title>
+    <style>
+      #lists {
+        display: flex;
+      }
+
+      #lists h3 {
+        text-align: center;
+      }
+    </style>
 </head>
 <body>
-<div>
-  <h3>Groceries category</h3>
-  <ul>
-    <li>barley</li>
-    <li>buckwheat</li>
-    <li>corn</li>
-    <li>rice</li>
-    <li>wheat</li>
-  </ul>
+<div id="lists">
+  <div>
+    <h3>Groceries category</h3>
+    <ul>
+      <li>barley</li>
+      <li>buckwheat</li>
+      <li>corn</li>
+      <li>rice</li>
+      <li>wheat</li>
+    </ul>
+  </div>
+  <div>
+    <h3>Shops</h3>
+    <ul>
+      <li>Таврія В</li>
+      <li>Ашан</li>
+      <li>Метро</li>
+      <li>Fozzy</li>
+    </ul>
+  </div>
 </div>
 <div>
-  <h3>Example cheaper</h3>
-  <p>exampledomain.ua/cheaper/&lt;category&gt;/</p>
+  <div id="examples">
+      <h3>Example cheaper</h3>
+      <p><span class="url">exampledomain.ua/</span>cheaper/&lt;category&gt;/</p>
 
-  <h3>Example history</h3>
-  <p>exampledomain.ua/history/&lt;category&gt;/</p>
+      <h3>Example history</h3>
+      <p><span class="url">exampledomain.ua/</span>history/&lt;category&gt;/</p>
 
-  <h3>Example good</h3>
-  <p>exampledomain.ua/&lt;category&gt;/</p>
+      <h3>Example good</h3>
+      <p><span class="url">exampledomain.ua/</span>&lt;category&gt;/</p>
+  </div>
 
   <div>
-      <h4>Filter</h4>
+      <h4>Block Filter</h4>
     <p><input type="text" id='filter_url' value="exampledomain.ua/<category>/?" style="width: 500px;" readonly/></p>
       <div>
         <input type="checkbox" id="price" value="&price=1-100">
@@ -67,6 +89,16 @@
     {% endif %}
   </div>
 </div>
+<script>
+  const documentUrl = document.URL;
+  let input_url = document.getElementById('filter_url');
+
+  Array.from(document.getElementsByClassName("url")).forEach((element) => {
+    element.innerHTML = documentUrl;
+  });
+
+  input_url.value = input_url.value.replace('exampledomain.ua/', documentUrl);
+</script>
 <script>
   let filter_url = document.getElementById('filter_url');
 
