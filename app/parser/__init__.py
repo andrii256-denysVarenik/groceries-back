@@ -2,6 +2,9 @@ from bs4 import BeautifulSoup
 from requests import get
 import re
 from datetime import datetime, date, time
+from app.database.provider import DbProvider
+
+db = DbProvider()
 
 
 BASE_URL = {

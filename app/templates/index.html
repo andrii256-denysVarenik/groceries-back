@@ -38,7 +38,7 @@
 <div>
   <div id="examples">
       <h3>Example cheaper</h3>
-      <p><span class="url">exampledomain.ua/</span>cheaper/&lt;category&gt;/</p>
+      <p><span class="url">exampledomain.ua/</span>&lt;category&gt;/?filter=cheaper&limit=1</p>
 
       <h3>Example history</h3>
       <p><span class="url">exampledomain.ua/</span>history/&lt;category&gt;/</p>
@@ -57,6 +57,10 @@
       <div>
         <input type="checkbox" id="shop" value="&shop=tavriav,atb">
         <label for="shop">Shop</label>
+      </div>
+      <div>
+        <input type="checkbox" id="limit" value="&limit=5">
+        <label for="limit">Limit</label>
       </div>
       <div>
         <h5>Filter</h5>
@@ -104,6 +108,7 @@
 
   let checkbox_price = document.getElementById('price');
   let checkbox_shop = document.getElementById('shop');
+  let checkbox_limit = document.getElementById('limit');
   let checkbox_cheaper = document.getElementById('cheaper');
   let checkbox_expensive = document.getElementById('expensive');
   let checkbox_none = document.getElementById('none');
@@ -121,7 +126,7 @@
     filter_url.value = filter_url.value.replace(checkbox_cheaper.value, '');
   });
 
-  let inputs = [checkbox_price, checkbox_shop];
+  let inputs = [checkbox_price, checkbox_shop, checkbox_limit];
   inputs.forEach(addToUrl);
 
   function addToUrl(input) {
