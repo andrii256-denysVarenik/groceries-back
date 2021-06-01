@@ -1,6 +1,5 @@
-from app.parser import get_soup, BASE_URL, get_weight_and_units, get_weight, price_per_kg
+from app.parser import get_soup, BASE_URL, get_weight_and_units, get_weight, price_per_kg, get_date
 from app.database.provider import insert_goods
-import datetime
 
 CATEGORY = {
     "corn": "corn-groats",
@@ -36,7 +35,7 @@ def get_good(good, type_good: str):
         "pricePerKg": float(f"{price:.2f}"),
         "weight": weight,
         "link": BASE_URL['metro'] + get_link(good),
-        "date": datetime.datetime.combine(datetime.date.today(), datetime.time.min),
+        "date": get_date(),
         "shopName": "Метро"
     }
     insert_goods(data)
