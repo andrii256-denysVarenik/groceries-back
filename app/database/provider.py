@@ -29,8 +29,8 @@ class DbProvider(object):
             price = self.__price_filter(args["price"])
             if price:
                 query.update(price)
-        if 'shop' in args:
-            shop = self.__shop_filter(args["shop"])
+        if 'shops' in args:
+            shop = self.__shop_filter(args["shops"])
             if shop:
                 query.update(shop)
         goods = self._db[type_good].find(query)
