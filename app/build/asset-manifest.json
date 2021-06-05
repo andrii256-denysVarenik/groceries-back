@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/static/css/main.a03f278f.chunk.css",
+    "main.js": "/static/js/main.8e98134c.chunk.js",
+    "main.js.map": "/static/js/main.8e98134c.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.3bacab17.js",
+    "runtime-main.js.map": "/static/js/runtime-main.3bacab17.js.map",
+    "static/js/2.c2452ff9.chunk.js": "/static/js/2.c2452ff9.chunk.js",
+    "static/js/2.c2452ff9.chunk.js.map": "/static/js/2.c2452ff9.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.a03f278f.chunk.css.map": "/static/css/main.a03f278f.chunk.css.map",
+    "static/js/2.c2452ff9.chunk.js.LICENSE.txt": "/static/js/2.c2452ff9.chunk.js.LICENSE.txt",
+    "static/media/index.scss": "/static/media/SF-Ultralight.188382ad.ttf",
+    "static/media/MainScreen.scss": "/static/media/bg-wheat.9ed220b4.jpg",
+    "static/media/Good.scss": "/static/media/spinner.8d72bc54.gif"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3bacab17.js",
+    "static/js/2.c2452ff9.chunk.js",
+    "static/css/main.a03f278f.chunk.css",
+    "static/js/main.8e98134c.chunk.js"
+  ]
+}

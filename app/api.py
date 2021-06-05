@@ -6,7 +6,7 @@ from app.database.provider import DbProvider
 db = DbProvider()
 
 
-@app.route('/<string:type_good>/', methods=["GET"])
+@app.route('/api/groceries/v3.0/<string:type_good>/', methods=["GET"])
 def goods(type_good):
     data = [good for good in db.find_goods(type_good, request.args.to_dict())]
     for good in data:
@@ -14,7 +14,7 @@ def goods(type_good):
     return jsonify(data)
 
 
-@app.route('/history/<string:type_good>/', methods=["GET"])
+@app.route('/api/groceries/v3.0/history/<string:type_good>/', methods=["GET"])
 def history(type_good):
     dates = [date.today() - timedelta(days=i) for i in range(0, 31)]
     dates = [datetime.combine(d, time.min) for d in dates]
