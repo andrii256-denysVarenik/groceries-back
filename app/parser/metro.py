@@ -1,17 +1,16 @@
 from app.parser import get_soup, BASE_URL, get_weight_and_units, get_weight, price_per_kg, get_date
 from app.parser import db
 
-CATEGORY = {
-    "corn": "corn-groats",
-    "buckwheat": "buckwheat",
-    "rice": "rice",
-    "barley": "barley-groats",
-    "wheat": "wheat-groats",
-}
 
-
-def get_start(category):
-    for type_good, num in category.items():
+def get_start():
+    CATEGORY = {
+        "corn": "corn-groats",
+        "buckwheat": "buckwheat",
+        "rice": "rice",
+        "barley": "barley-groats",
+        "wheat": "wheat-groats",
+    }
+    for type_good, num in CATEGORY.items():
         link = f'{BASE_URL["metro"]}/uk/categories/{num}-metro/'
         soup = get_soup(link)
         goods = get_goods(soup)
@@ -58,4 +57,4 @@ def get_link(good):
 
 
 if __name__ == "__main__":
-    get_start(CATEGORY)
+    get_start()

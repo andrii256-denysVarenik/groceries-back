@@ -4,13 +4,6 @@ from app.parser import db
 from app.parser import get_soup, BASE_URL, get_weight_and_units, price_per_kg, get_date
 
 # max_num = 681
-CATEGORY = {
-        "corn": 96,
-        "buckwheat": 94,
-        "rice": 97,
-        "barley": 102,
-        "wheat": 100,
-    }
 
 
 def get_name(good) -> str:
@@ -63,8 +56,15 @@ def get_goods(soup) -> list:
     return soup.find("div", {"class": "catalog-products__container"}).findAll("div", {"class": "products__item"})
 
 
-def get_start(category: dict):
-    for type_good, num in category.items():
+def get_start():
+    CATEGORY = {
+        "corn": 96,
+        "buckwheat": 94,
+        "rice": 97,
+        "barley": 102,
+        "wheat": 100,
+    }
+    for type_good, num in CATEGORY.items():
         link = f'{BASE_URL["tavriav"]}/subcatalog/{num}/'
         soup = get_soup(link)
         goods = get_goods(soup)
@@ -73,4 +73,4 @@ def get_start(category: dict):
 
 
 if __name__ == "__main__":
-    get_start(CATEGORY)
+    get_start()
