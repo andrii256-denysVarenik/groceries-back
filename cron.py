@@ -1,8 +1,9 @@
-from app.parser import auchan, fozzy, metro, tavriav
+from app.parser import Auchan, Fozzy, Metro, Tavriav
 
 
 if __name__ == '__main__':
-    auchan.get_start()
-    fozzy.get_start()
-    metro.get_start()
-    tavriav.get_start()
+    Auchan().run()
+    Fozzy().run()
+    Metro().run()
+    Tavriav().run()
+

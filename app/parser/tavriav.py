@@ -1,76 +1,79 @@
-import re
-
-from app.parser import db
-from app.parser import get_soup, BASE_URL, get_weight_and_units, price_per_kg, get_date
-
-# max_num = 681
+from app.parser import Parser
+from re import findall
 
 
-def get_name(good) -> str:
-    return good.find("p", {"class": "product__title"}).a.string
+class Tavriav(Parser):
+
+    def __init__(self):
+        Parser.__init__(self)
+        self._link = 'https://tavriav.ua'
+        self._good = None
+        self._weight = None
+        self._units = None
+
+    @staticmethod
+    def get_category() -> dict:
+        return {
+            "corn": 96,
+            "buckwheat": 94,
+            "rice": 97,
+            "barley": 102,
+            "wheat": 100,
+        }
+
+    @staticmethod
+    def get_goods(soup):
+        return soup.find("div", {"class": "catalog-products__container"}).findAll("div", {"class": "products__item"})
+
+    def get_name(self) -> str:
+        return self._good.find("p", {"class": "product__title"}).a.string
+
+    def get_img(self):
+        img_good = self._good.find("div", {"class": "product__image"}).img["src"]
+        return img_good.replace(findall(r'(resize_\d+x\d+)', img_good)[0], 'resize_250x200')
+
+    def get_link(self):
+        return self._good.find("p", {"class": "product__title"}).a["href"]
+
+    def get_weight(self):
+        w_and_u = self._find_w_and_u(self.get_name())
+        weight, units = [w_and_u.group(1), w_and_u.group(2)] if w_and_u else ['1000', 'г']
+        kilo = 1000 if units == 'кг' else 1
+        weight = self._weight_to_float(weight) * kilo
+        self._weight, self._units = weight, units
+        return weight
+
+    def get_price(self):
+        price = self._good.find("p", {"class": "product__price"})
+        if price.b:
+            price = price.b.string.strip().replace(',', '.').split(' ')[0]
+        else:
+            price = price.find('span', {"class": "price__old"}).string.strip().replace(',', '.').split(' ')[0]
+        return float(price) / self._weight * 1000
+
+    def insert_good(self, type_good: str):
+        self._provider.insert_goods({
+            "type": type_good,
+            "title": self.get_name(),
+            "pictureLink": self.get_img(),
+            "weight": self.get_weight(),
+            "pricePerKg": self.get_price(),
+            "link": self._link + self.get_link(),
+            "date": self._get_date(),
+            "shopName": "Таврія В"
+        })
+
+    def run(self):
+        for type_good, part_link in self.get_category().items():
+            link = f'{self._link}/subcatalog/{part_link}/'
+            soup = self._get_soup(link)
+            goods = self.get_goods(soup)
+            if not goods:
+                break
+            for good in goods:
+                self._good = good
+                self.insert_good(type_good)
 
 
-def get_link(good) -> str:
-    return BASE_URL["tavriav"] + good.find("p", {"class": "product__title"}).a["href"]
-
-
-def get_img(good) -> str:
-    img_good = good.find("div", {"class": "product__image"}).img["src"]
-    return img_good.replace(re.findall(r'(resize_\d+x\d+)', img_good)[0], 'resize_250x200')
-
-
-def get_price(good) -> list:
-    price = good.find("p", {"class": "product__price"})
-    if price.b:
-        price_good = price.b.string.strip().replace(',', '.').split(' ')[0]
-        before_discount = None
-        return [price_good, before_discount]
-    else:
-        discount_good = price.find('span', {"class": "price__discount"}).string.strip().replace(',', '.').split(' ')[0]
-        before_discount = price.find('span', {"class": "price__old"}).string.strip().replace(',', '.').split(' ')[0]
-        return [discount_good, before_discount]
-
-
-def get_good(good, type_good: str):
-    name = get_name(good)
-    weight, units = get_weight_and_units(name)
-    price, before_discount = get_price(good)
-    price = price_per_kg(units, float(price), weight)
-    data = {
-        "type": type_good,
-        "title": name,
-        "pictureLink": get_img(good),
-        "pricePerKg": float(f"{price:.2f}"),
-        "weight": weight,
-        "link": get_link(good),
-        "date": get_date(),
-        "shopName": "Таврія В"
-    }
-    if before_discount:
-        before_discount = price_per_kg(units, float(before_discount), weight)
-        data['before_discount'] = float(f"{before_discount:.2f}")
-    db.insert_goods(data)
-
-
-def get_goods(soup) -> list:
-    return soup.find("div", {"class": "catalog-products__container"}).findAll("div", {"class": "products__item"})
-
-
-def get_start():
-    CATEGORY = {
-        "corn": 96,
-        "buckwheat": 94,
-        "rice": 97,
-        "barley": 102,
-        "wheat": 100,
-    }
-    for type_good, num in CATEGORY.items():
-        link = f'{BASE_URL["tavriav"]}/subcatalog/{num}/'
-        soup = get_soup(link)
-        goods = get_goods(soup)
-        for good in goods:
-            get_good(good, type_good)
-
-
-if __name__ == "__main__":
-    get_start()
+if __name__ == '__main__':
+    Tavriav().run()
