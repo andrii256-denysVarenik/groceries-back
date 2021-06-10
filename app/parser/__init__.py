@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 from app.database.provider import DbProvider
 from datetime import datetime, date, time
 from re import search
+from os import path
+BASE_DIR = path.abspath(path.dirname(__file__))
 
 
 class Parser(object):
@@ -14,7 +16,7 @@ class Parser(object):
         self._options.add_argument('headless')
         self._options.add_argument(f'user-agent={UserAgent().random}')
 
-        self.__browser = webdriver.Chrome(chrome_options=self._options)
+        self.__browser = webdriver.Chrome(f'{BASE_DIR}/chromedriver', chrome_options=self._options)
         self._provider = DbProvider()
 
     def _get_soup(self, link: str):
