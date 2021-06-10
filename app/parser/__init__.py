@@ -1,6 +1,5 @@
 from selenium import webdriver
 from fake_useragent import UserAgent
-from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 from app.database.provider import DbProvider
 from datetime import datetime, date, time
@@ -15,7 +14,7 @@ class Parser(object):
         self._options.add_argument('headless')
         self._options.add_argument(f'user-agent={UserAgent().random}')
 
-        self.__browser = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=self._options)
+        self.__browser = webdriver.Chrome(chrome_options=self._options)
         self._provider = DbProvider()
 
     def _get_soup(self, link: str):
