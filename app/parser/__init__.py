@@ -22,7 +22,11 @@ class Parser(object):
         self._provider = DbProvider()
 
     def _get_soup(self, link: str):
-        self.__browser.get(link)
+        self.__browser.set_page_load_timeout(15)
+        try:
+            self.__browser.get(link)
+        except:
+            self.__browser.get(link)
         html = self.__browser.page_source
         self.__browser.quit()
         return BeautifulSoup(html, 'html.parser')
