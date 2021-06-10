@@ -14,8 +14,8 @@ class Parser(object):
 
         self._options.binary_location = environ.get("GOOGLE_CHROME_BIN")
         self._options.add_argument('--headless')
-        self._options.add_argument('--disable-dev-shm-usage')
         self._options.add_argument('--no-sandbox')
+        self._options.add_argument('--disable-dev-shm-usage')
         self._options.add_argument(f'user-agent={UserAgent().random}')
 
         self.__browser = webdriver.Chrome(executable_path=environ.get("CHROMEDRIVER_PATH"), chrome_options=self._options)
