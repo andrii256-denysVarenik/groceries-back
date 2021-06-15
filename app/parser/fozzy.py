@@ -1,4 +1,8 @@
 from app.parser import Parser
+from selenium import webdriver
+from fake_useragent import UserAgent
+from bs4 import BeautifulSoup
+from os import environ
 
 
 class Fozzy(Parser):
@@ -6,6 +10,16 @@ class Fozzy(Parser):
     def __init__(self):
         Parser.__init__(self)
         self._link = 'https://fozzyshop.ua'
+        self._options = webdriver.ChromeOptions()
+
+        self._options.binary_location = environ.get("GOOGLE_CHROME_BIN")
+        self._options.add_argument('--headless')
+        self._options.add_argument('--no-sandbox')
+        self._options.add_argument('--disable-dev-shm-usage')
+        self._options.add_argument(f'user-agent={UserAgent().random}')
+
+        self.__browser = webdriver.Chrome(executable_path=environ.get("CHROMEDRIVER_PATH"),
+                                          chrome_options=self._options)
         self._good = None
         self._weight = None
         self._units = None
@@ -70,6 +84,16 @@ class Fozzy(Parser):
         #     "date": self._get_date(),
         #     "shopName": "Fozzy"
         # })
+
+    def _get_soup(self, link: str):
+        self.__browser.set_page_load_timeout(15)
+        try:
+            self.__browser.get(link)
+        except:
+            self.__browser.get(link)
+        html = self.__browser.page_source
+        self.__browser.quit()
+        return BeautifulSoup(html, 'html.parser')
 
     def run(self):
         for type_good, part_link in self.get_category().items():
