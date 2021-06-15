@@ -18,7 +18,6 @@ class Auchan(Parser):
             "rice": "rice",
             "barley": "barley-groats",
             "wheat": "wheat-groats",
-            "honey": ""
         }
 
     @staticmethod

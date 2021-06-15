@@ -50,7 +50,7 @@ class Fozzy(Parser):
         return 0
 
     def insert_good(self, type_good: str):
-        self._provider.insert_goods({
+        print({
             "type": type_good,
             "title": self.get_name(),
             "pictureLink": self.get_img(),
@@ -60,6 +60,16 @@ class Fozzy(Parser):
             "date": self._get_date(),
             "shopName": "Fozzy"
         })
+        # self._provider.insert_goods({
+        #     "type": type_good,
+        #     "title": self.get_name(),
+        #     "pictureLink": self.get_img(),
+        #     "weight": self.get_weight(),
+        #     "pricePerKg": self.get_price(),
+        #     "link": self._link + self.get_link(),
+        #     "date": self._get_date(),
+        #     "shopName": "Fozzy"
+        # })
 
     def run(self):
         for type_good, part_link in self.get_category().items():
