@@ -1,8 +1,10 @@
+from random import randint
 from selenium import webdriver
 from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
 from app.database.provider import DbProvider
 from datetime import datetime, date, time
+from time import sleep
 from re import search
 from os import environ
 
@@ -22,6 +24,7 @@ class Parser(object):
         self._provider = DbProvider()
 
     def _get_soup(self, link: str):
+        sleep(randint(5, 15))
         self.__browser.get(link)
         html = self.__browser.page_source
         return BeautifulSoup(html, 'html.parser')
