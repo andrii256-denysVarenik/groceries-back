@@ -18,7 +18,6 @@ class Auchan(Parser):
             "rice": "rice",
             "barley": "barley-groats",
             "wheat": "wheat-groats",
-            "honey": ""
         }
 
     @staticmethod
@@ -29,7 +28,7 @@ class Auchan(Parser):
         return self._good.a["title"]
 
     def get_img(self):
-        return self._good.find("div", {"class": "ProductTile__imageContainer"}).img['src'].replace('150', '350')
+        return self._good.find("div", {"class": "ProductTile__imageContainer"}).img['src']
 
     def get_link(self):
         return self._good.a["href"]
@@ -68,6 +67,7 @@ class Auchan(Parser):
             for good in goods:
                 self._good = good
                 self.insert_good(type_good)
+        self._browser_quit()
 
 
 if __name__ == '__main__':

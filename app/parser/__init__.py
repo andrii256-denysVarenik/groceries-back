@@ -24,7 +24,6 @@ class Parser(object):
     def _get_soup(self, link: str):
         self.__browser.get(link)
         html = self.__browser.page_source
-        self.__browser.quit()
         return BeautifulSoup(html, 'html.parser')
 
     @staticmethod
@@ -54,6 +53,9 @@ class Parser(object):
 
     def run(self):
         pass
+
+    def _browser_quit(self):
+        self.__browser.quit()
 
 
 from app.parser.auchan import Auchan

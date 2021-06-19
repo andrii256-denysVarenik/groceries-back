@@ -73,6 +73,7 @@ class Tavriav(Parser):
             for good in goods:
                 self._good = good
                 self.insert_good(type_good)
+        self._browser_quit()
 
 
 if __name__ == '__main__':
